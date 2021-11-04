@@ -124,19 +124,20 @@ project "RecastNavDll"
 	language "C++"
 	kind "SharedLib"
 	includedirs { 
-		"../RecastDemo/Include",
-		"../RecastDemo/Contrib",
-		"../RecastDemo/Contrib/fastlz",
-		"../DebugUtils/Include",
+		"../RecastNavDll/Include",
 		"../Detour/Include",
-		"../DetourCrowd/Include",
-		"../DetourTileCache/Include",
 		"../Recast/Include"
 	}
 	files { 
 		"../RecastNavDll/Include/*.h",
 		"../RecastNavDll/Source/*.cpp" 
 	}
+
+	configuration { "windows" }
+		libdirs { todir .. "/lib/" .. outputdir }
+		links { 
+			"Detour"
+		}
 
 project "RecastDemo"
 	language "C++"

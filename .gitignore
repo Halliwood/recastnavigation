@@ -17,8 +17,8 @@ RecastDemo/Bin/RecastDemo
 RecastDemo/Bin/Tests
 
 # Build directory
-lib/*
-obj/*
+RecastDemo/Build/*/lib/*
+RecastDemo/Build/*/obj/*
 
 # Ignore meshes
 RecastDemo/Bin/Meshes/*
@@ -51,3 +51,5 @@ Docs/html
 ## IDE files
 .idea/
 cmake-build-*/
+*.VC.VC.opendb
+*.VC.db
