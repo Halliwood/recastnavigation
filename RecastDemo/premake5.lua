@@ -5,6 +5,7 @@
 
 local action = _ACTION or ""
 local todir = "Build/" .. action
+local outputdir = "%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}" --Debug/Windows/x64
 
 solution "recastnavigation"
 	configurations { 
@@ -23,13 +24,15 @@ solution "recastnavigation"
 	-- debug configs
 	configuration "Debug*"
 		defines { "DEBUG" }
-		targetdir ( todir .. "/lib/Debug" )
+		targetdir ( todir .. "/lib/" .. outputdir )
+		objdir ( todir .. "/obj/" .. outputdir .. "/%{prj.name}" )
  
  	-- release configs
 	configuration "Release*"
 		defines { "NDEBUG" }
 		optimize "On"
-		targetdir ( todir .. "/lib/Release" )
+		targetdir ( todir .. "/lib/" .. outputdir )
+		objdir ( todir .. "/obj/" .. outputdir .. "/%{prj.name}" )
 
 	configuration "not windows"
 		warnings "Extra"
@@ -117,6 +120,24 @@ project "Recast"
 		"../Recast/Source/*.cpp" 
 	}
 
+project "RecastNavDll"
+	language "C++"
+	kind "SharedLib"
+	includedirs { 
+		"../RecastDemo/Include",
+		"../RecastDemo/Contrib",
+		"../RecastDemo/Contrib/fastlz",
+		"../DebugUtils/Include",
+		"../Detour/Include",
+		"../DetourCrowd/Include",
+		"../DetourTileCache/Include",
+		"../Recast/Include"
+	}
+	files { 
+		"../RecastNavDll/Include/*.h",
+		"../RecastNavDll/Source/*.cpp" 
+	}
+
 project "RecastDemo"
 	language "C++"
 	kind "WindowedApp"
@@ -147,7 +168,7 @@ project "RecastDemo"
 	}
 
 	-- distribute executable in RecastDemo/Bin directory
-	targetdir "Bin"
+	targetdir ("Bin" .. outputdir)
 
 	-- linux library cflags and libs
 	configuration { "linux", "gmake" }

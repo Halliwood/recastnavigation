@@ -14,7 +14,8 @@ RecastDemo/Bin/RecastDemo
 RecastDemo/Bin/Tests
 
 # Build directory
-RecastDemo/Build
+lib/*
+obj/*
 
 # Ignore meshes
 RecastDemo/Bin/Meshes/*
