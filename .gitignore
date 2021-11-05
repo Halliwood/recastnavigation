@@ -22,6 +22,7 @@ RecastDemo/Build/*/obj/*
 
 # Ignore meshes
 RecastDemo/Bin/Meshes/*
+RecastDemo/Bin/*.bin
 
 ## Logs and databases #
 *.log
@@ -49,6 +50,7 @@ RecastDemo/Contrib/SDL/*
 Docs/html
 
 ## IDE files
+.vs/
 .idea/
 cmake-build-*/
 *.VC.VC.opendb

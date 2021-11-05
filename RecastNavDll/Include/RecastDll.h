@@ -50,6 +50,13 @@ extern "C"
 	DllExport bool recast_smooth(int id, float step_size, float slop);
 
 	/// <summary>
+	/// 计算直线路径，其实是根据findpath得到的【从起点到终点所经过的凸多边形的序号】，得到真正的路径（三维坐标），所以这一步是不可缺少的
+	/// </summary>
+	/// <param name="id">地图Id</param>
+	/// <returns></returns>
+	DllExport bool recast_straight(int id);
+
+	/// <summary>
     /// 射线检测，从起始位置向终点位置发射一个射线，中间遇到阻挡停止，并返回阻挡Poly
     /// </summary>
 	/// <param name="id">地图Id</param>
@@ -74,11 +81,18 @@ extern "C"
 	DllExport int recast_getcountpoly(int id);
 
 	/// <summary>
-	/// 寻路后，得到具体的路径节点的个数
+	/// 寻路后，得到具体的smooth路径节点的个数
 	/// </summary>
 	/// <param name="id">地图Id</param>
 	/// <returns></returns>
 	DllExport int recast_getcountsmooth(int id);
+
+	/// <summary>
+	/// 寻路后，得到具体的straight路径节点的个数
+	/// </summary>
+	/// <param name="id">地图Id</param>
+	/// <returns></returns>
+	DllExport int recast_getcountstraight(int id);
 
 	/// <summary>
 	/// 得到pathfind以后，从起点到终点所经过的所有凸多边形id的序列
@@ -93,6 +107,13 @@ extern "C"
 	/// <param name="id">地图Id</param>
 	/// <returns>得到寻路坐标序列，每（x,y,z）三个数值为一个单元，所以实际返回的数量是smoothCount的3倍</returns>
 	DllExport float* recast_getpathsmooth(int id);
+
+	/// <summary>
+	/// 得到straight路线的三维坐标序列
+	/// </summary>
+	/// <param name="id">地图Id</param>
+	/// <returns>得到寻路坐标序列，每（x,y,z）三个数值为一个单元，所以实际返回的数量是straightCount的3倍</returns>
+	DllExport float* recast_getpathstraight(int id);
 
 	/// <summary>
     /// 修正坐标

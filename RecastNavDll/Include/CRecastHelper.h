@@ -7,6 +7,7 @@
 
 static const int MAX_POLYS = 256;
 static const int MAX_SMOOTH = 2048;
+static const int MAX_STRAIGHT = 2048;
 
 class CRecast
 {
@@ -24,6 +25,13 @@ class CRecast
 
 	float m_smoothPath[MAX_SMOOTH * 3];
 	int m_nsmoothPath;
+
+	int m_straightPathOptions;
+	float m_straightPath[MAX_POLYS * 3];
+	unsigned char m_straightPathFlags[MAX_POLYS];
+	dtPolyRef m_straightPathPolys[MAX_POLYS];
+	int m_nstraightPath;
+
 	float m_fixPos[3];
 	float m_hitPos[3];
 
@@ -41,12 +49,15 @@ public:
 	// stepSize : 如果给0，会自动变成0.5f
 	// slop : 如果给0，会自动变成0.01f
 	void Smooth(float STEP_SIZE, float SLOP);
+	void Straight();
 
 	int GetCountPoly() { return m_npolys; }
 	int GetCountSmooth() { return m_nsmoothPath; }
+	int GetCountStraight() { return m_nstraightPath; }
 
 	dtPolyRef* GetPathPoly(int* polyCount) { *polyCount = m_npolys; return m_polys; }
 	float* GetPathSmooth(int* smoothCount) { *smoothCount = m_nsmoothPath; return m_smoothPath; }
+	float* GetPathStraight(int* straightCount) { *straightCount = m_nstraightPath; return m_straightPath; }
 
 	float* fixPosition(const float* pos);
 	float* GetHitPosition() { return m_hitPos; }

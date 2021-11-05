@@ -278,7 +278,9 @@ static bool getSteerTarget(dtNavMeshQuery* navQuery, const float* startPos, cons
 //	class CRecast
 /////////////////////////////////////////////////
 
-CRecast::CRecast()
+CRecast::CRecast() : 
+	m_straightPathOptions(0),
+	m_nstraightPath(0)
 {
 	m_navMesh = NULL;
 	m_navQuery = NULL;
@@ -513,6 +515,22 @@ void CRecast::Smooth(float STEP_SIZE, float SLOP)
 				m_nsmoothPath++;
 			}
 		}
+	}
+}
+
+void CRecast::Straight() {
+	m_nstraightPath = 0;
+	if (m_npolys)
+	{
+		// In case of partial path, make sure the end point is clamped to the last polygon.
+		float epos[3];
+		dtVcopy(epos, m_epos);
+		if (m_polys[m_npolys - 1] != m_endRef)
+			m_navQuery->closestPointOnPoly(m_polys[m_npolys - 1], m_epos, epos, 0);
+
+		m_navQuery->findStraightPath(m_spos, epos, m_polys, m_npolys,
+			m_straightPath, m_straightPathFlags,
+			m_straightPathPolys, &m_nstraightPath, MAX_POLYS, m_straightPathOptions);
 	}
 }
 

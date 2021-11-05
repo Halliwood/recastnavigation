@@ -47,6 +47,12 @@ extern "C"
 		_helper->Get(id)->Smooth(step_size, slop);
 		return true;
 	}
+	bool recast_straight(int id)
+	{
+		if (!_helper || !_helper->Get(id)) return false;
+		_helper->Get(id)->Straight();
+		return true;
+	}
 
 	int recast_raycast(int id, const float* spos, const float* epos)
 	{
@@ -73,6 +79,12 @@ extern "C"
 		return _helper->Get(id)->GetCountSmooth();
 	}
 
+	int recast_getcountstraight(int id)
+	{
+		if (!_helper || !_helper->Get(id)) return 0;
+		return _helper->Get(id)->GetCountStraight();
+	}
+
 	unsigned int* recast_getpathpoly(int id)
 	{
 		if (!_helper || !_helper->Get(id)) return NULL;
@@ -93,6 +105,17 @@ extern "C"
 		if (count == 0)
 			return NULL;
 		return polys;
+	}
+
+	float* recast_getpathstraight(int id)
+	{
+		if (!_helper || !_helper->Get(id)) return NULL;
+
+		int count = 0;
+		float* pts = _helper->Get(id)->GetPathStraight(&count);
+		if (count == 0)
+			return NULL;
+		return pts;
 	}
 
 	float* recast_getfixposition(int id, const float* pos)
